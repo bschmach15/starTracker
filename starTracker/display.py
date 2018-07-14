@@ -12,9 +12,9 @@ class Display:
         # set color to red
         self.lcd.set_color(1, 0, 0)
         self.lcd.message('Initializing...\n')
-        self.modes = {"Main": self.main_menu, "Observation": self.observation_mode, "Photography": self.photo_mode}
+        self.modes = {"Main Menu": self.main_menu, "Observation": self.observation_mode, "Photography": self.photo_mode}
         self.options = None
-        self.buttons = [[LCD.SELECT, 0], [LCD.LEFT, 2], [LCD.RIGHT,3],
+        self.buttons = [[LCD.SELECT, 0], [LCD.LEFT, "Back"], [LCD.RIGHT,3],
                         [LCD.DOWN, 1], [LCD.UP, -1]]
         self.main_menu()
 
@@ -36,7 +36,7 @@ class Display:
                     else:
                         index += button[1]
                     print("Index:", index)
-                    self.lcd.message("{0} - {1}".format(self.options[index], index))
+                    self.lcd.message("{0}: {1}".format(index, self.options[index]))
                     time.sleep(0.25)
 
 
@@ -44,7 +44,7 @@ class Display:
         self.lcd.clear()
         self.options = list(planets.keys())
         index = 0
-        self.options.append("Back")
+        self.options.append("Main Menu")
         self.lcd.message(self.options[index])
         while True:
             for button in self.buttons:
@@ -52,15 +52,15 @@ class Display:
                     self.lcd.clear()
                     if button[1] == 0: # Pressed select
                         pass #TODO - begin tracking selection
-                    if index == len(self.options) - 1 and button[1] == 1:
+                    elif button[1] == "Back": #pressed left
+                        self.main_menu()
+                    elif index == len(self.options) - 1 and button[1] == 1:
                         index = 0
                     elif index == 0 and button[1] == -1:
                         index = len(self.options) - 1
-                    elif button[1] == 2: #pressed left
-                        self.main_menu()
                     else:
                         index += button[1]
-                    self.lcd.message("{0} - {1}".format(self.options[index], index))
+                    self.lcd.message("{0}: {1}".format(index, self.options[index]))
                     time.sleep(0.25)
 
 
