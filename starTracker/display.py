@@ -1,5 +1,6 @@
 import Adafruit_CharLCD as LCD
 from planets import planets
+import time
 
 
 class Display:
@@ -34,6 +35,7 @@ class Display:
                     else:
                         index += button[1]
                     self.lcd.message(self.options[index])
+                    time.sleep(0.5)
 
 
     def photo_mode(self):
