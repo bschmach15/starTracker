@@ -23,6 +23,7 @@ class Display:
     def observation_mode(self):
         self.lcd.clear()
         self.options = list(planets.keys())
+        print(self.options)
         index = 0
         self.options.append("Back")
         self.lcd.message(self.options[index])
@@ -33,9 +34,12 @@ class Display:
                     if index == len(self.options) - 1:
                         index = 0
                     else:
-                        index += button[1]
-                    self.lcd.message(self.options[index])
-                    time.sleep(0.5)
+                        if index == 0 and button[1] == -1:
+                            index = len(self.options) - 1
+                        else:
+                            index += button[1]
+                    self.lcd.message("{0} - {1}".format(self.options[index], index))
+                    time.sleep(0.25)
 
 
     def photo_mode(self):
