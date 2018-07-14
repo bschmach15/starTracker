@@ -53,6 +53,7 @@ class Display:
                     if button[1] == 0: # Pressed select
                         pass #TODO - begin tracking selection
                     elif button[1] == "Back": #pressed left
+                        time.sleep(0.5) # Needed since buttons stay "pressed"
                         self.main_menu()
                     elif index == len(self.options) - 1 and button[1] == 1:
                         index = 0
