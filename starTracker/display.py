@@ -16,6 +16,7 @@ class Display:
         self.options = None
         self.buttons = [[LCD.SELECT, 0], [LCD.LEFT, 0], [LCD.RIGHT,0],
                         [LCD.DOWN, 1], [LCD.UP, -1]]
+        self.main_menu()
 
     def main_menu(self):
         self.lcd.clear()
@@ -27,7 +28,7 @@ class Display:
                 if self.lcd.is_pressed(button[0]):
                     self.lcd.clear()
                     if button[1] == 0: # You've Pressed Select
-                        self.modes[button[index]]()
+                        self.modes[self.options[index]]()
                     elif index == len(self.options) - 1 and button[1] == 1:
                         index = 0
                     elif index == 0 and button[1] == -1:
