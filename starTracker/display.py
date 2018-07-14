@@ -10,7 +10,7 @@ class Display:
 
         # set color to red
         self.lcd.set_color(1, 0, 0)
-        self.lcd.message('Initializing...')
+        self.lcd.message('Initializing...\n')
         self.modes = {"Main": self.main_menu(), "Observation": self.observation_mode, "Photography": self.photo_mode}
         self.options = None
         self.buttons = [[LCD.SELECT, 0], [LCD.LEFT, 0], [LCD.RIGHT,0],
@@ -20,6 +20,7 @@ class Display:
         self.options = iter(['Observation', "Photography"])
 
     def observation_mode(self):
+        self.lcd.clear()
         self.options = list(planets.keys())
         index = 0
         self.options.append("Back")
@@ -27,6 +28,7 @@ class Display:
         while True:
             for button in self.buttons:
                 if self.lcd.is_pressed(button[0]):
+                    self.lcd.clear()
                     if index == len(self.options) - 1:
                         index = 0
                     else:
