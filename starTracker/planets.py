@@ -154,6 +154,6 @@ Saturn = Planet("Saturn")
 Uranus = Planet("Uranus")
 Neptune = Planet("Neptune")
 
-planets = {"Mercury\n": Mercury, "Venus\n": Venus, "Mars\n": Mars, "Saturn\n": Saturn, "Jupiter\n": Jupiter,
-           "Neptune\n": Neptune, "Uranus\n": Uranus}
+planets = {"Mercury": Mercury, "Venus": Venus, "Mars": Mars, "Saturn": Saturn, "Jupiter": Jupiter,
+           "Neptune": Neptune, "Uranus": Uranus}
 
