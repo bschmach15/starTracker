@@ -35,6 +35,7 @@ class Display:
                         index = len(self.options) - 1
                     else:
                         index += button[1]
+                    print("Index:", index)
                     self.lcd.message("{0} - {1}".format(self.options[index], index))
                     time.sleep(0.25)
 
