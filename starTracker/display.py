@@ -31,7 +31,7 @@ class Display:
             for button in self.buttons:
                 if self.lcd.is_pressed(button[0]):
                     self.lcd.clear()
-                    if index == len(self.options) - 1:
+                    if index == len(self.options) - 1 and button[1] == 1:
                         index = 0
                     else:
                         if index == 0 and button[1] == -1:
