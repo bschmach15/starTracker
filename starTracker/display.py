@@ -14,7 +14,7 @@ class Display:
         self.lcd.message('Initializing...\n')
         self.modes = {"Main": self.main_menu, "Observation": self.observation_mode, "Photography": self.photo_mode}
         self.options = None
-        self.buttons = [[LCD.SELECT, 0], [LCD.LEFT, 0], [LCD.RIGHT,0],
+        self.buttons = [[LCD.SELECT, 0], [LCD.LEFT, 2], [LCD.RIGHT,3],
                         [LCD.DOWN, 1], [LCD.UP, -1]]
         self.main_menu()
 
@@ -49,10 +49,14 @@ class Display:
             for button in self.buttons:
                 if self.lcd.is_pressed(button[0]):
                     self.lcd.clear()
+                    if button[1] == 0: # Pressed select
+                        pass #TODO - begin tracking selection
                     if index == len(self.options) - 1 and button[1] == 1:
                         index = 0
                     elif index == 0 and button[1] == -1:
                         index = len(self.options) - 1
+                    elif button[1] == 2: #pressed left
+                        self.main_menu()
                     else:
                         index += button[1]
                     self.lcd.message("{0} - {1}".format(self.options[index], index))
@@ -61,6 +65,8 @@ class Display:
 
     def photo_mode(self):
         self.lcd.message("Entered Photo Mode!")
+        time.sleep(3)
+        self.main_menu()
 
 
 if __name__ == '__main__':
