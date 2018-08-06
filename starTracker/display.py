@@ -1,11 +1,12 @@
 import Adafruit_CharLCD as LCD
 from planets import planets
 import time
+from threading import Thread
 
 
-class Display:
+class Display(Thread):
 
-    def __init__(self):
+    def __init__(self, queue):
         # init the LCD
         self.lcd = LCD.Adafruit_CharLCDPlate()
 
@@ -16,13 +17,15 @@ class Display:
         self.options = None
         self.buttons = [[LCD.SELECT, 0], [LCD.LEFT, "Back"], [LCD.RIGHT,3],
                         [LCD.DOWN, 1], [LCD.UP, -1]]
-        self.main_menu()
+        # self.main_menu()
+        self.q = queue
+        Thread.__init__(self)
 
     def main_menu(self):
         self.lcd.clear()
         self.options = ['Observation', "Photography"]
         index = 0
-        self.lcd.message(self.options[index])
+        self.lcd.message("{0}: {1}".format(index, self.options[index]))
         while True:
             for button in self.buttons:
                 if self.lcd.is_pressed(button[0]):
@@ -35,7 +38,6 @@ class Display:
                         index = len(self.options) - 1
                     else:
                         index += button[1]
-                    print("Index:", index)
                     self.lcd.message("{0}: {1}".format(index, self.options[index]))
                     time.sleep(0.25)
 
@@ -45,7 +47,7 @@ class Display:
         self.options = list(planets.keys())
         index = 0
         self.options.append("Main Menu")
-        self.lcd.message(self.options[index])
+        self.lcd.message("{0}: {1}".format(index, self.options[index]))
         while True:
             for button in self.buttons:
                 if self.lcd.is_pressed(button[0]):
@@ -69,6 +71,9 @@ class Display:
         self.lcd.message("Entered Photo Mode!")
         time.sleep(3)
         self.main_menu()
+
+    def display_message(self, message:str):
+        self.lcd.message(message)
 
 
 if __name__ == '__main__':
