@@ -196,7 +196,7 @@ class Planet:
                                                                   self.distance)
 
     def __str__(self):
-        return "{0} - JD: {4} :\n Mean: {1} \t True: {2} \t Dist to Sun: {3} au".format(self.name,
+        return "{0} - JD: {4}:\n Mean: {1} \t True: {2} \t Dist to Sun: {3} au".format(self.name,
                                                                                         self.elements.mean_anomaly,
                                                                                         self.elements.true,
                                                                                         self.elements.radius,
