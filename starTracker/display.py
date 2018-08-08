@@ -2,7 +2,7 @@ import Adafruit_CharLCD as LCD
 from planets import planets
 import time
 from threading import Thread
-
+from queue import Queue
 
 class Display(Thread):
 
@@ -13,12 +13,12 @@ class Display(Thread):
         # set color to red
         self.lcd.set_color(1, 0, 0)
         self.lcd.message('Initializing...\n')
+        self.lcd.create_char(1, [12,18,18,12,0,0,0,0])  # degree symbol
         self.modes = {"Main Menu": self.main_menu, "Observation": self.observation_mode, "Photography": self.photo_mode}
         self.options = None
         self.buttons = [[LCD.SELECT, 0], [LCD.LEFT, "Back"], [LCD.RIGHT,3],
                         [LCD.DOWN, 1], [LCD.UP, -1]]
-        # self.main_menu()
-        self.q = queue
+        self.q = queue  #type: Queue
         Thread.__init__(self)
 
     def main_menu(self):
@@ -53,8 +53,11 @@ class Display(Thread):
                 if self.lcd.is_pressed(button[0]):
                     self.lcd.clear()
                     if button[1] == 0: # Pressed select
-                        pass #TODO - begin tracking selection
-                    elif button[1] == "Back": #pressed left
+                        time.sleep(0.5)
+                        planet = self.options[index]
+                        self.q.put(planet)
+                        self.tracking_mode(planet)
+                    elif button[1] == "Back":  # pressed left
                         time.sleep(0.5) # Needed since buttons stay "pressed"
                         self.main_menu()
                     elif index == len(self.options) - 1 and button[1] == 1:
@@ -75,7 +78,21 @@ class Display(Thread):
     def display_message(self, message:str):
         self.lcd.message(message)
 
+    def tracking_mode(self, planet_key):
+        tracked_planet = planets[planet_key]
+        message = "Tracking {0}\n RA: {1}\x01 Dec: {2}\0x1".format(planet_key, tracked_planet.right_ascenscion,
+                                                                   tracked_planet.declination)
+        self.display_message(message)
+        while True:
+            for button in self.buttons:
+                if self.lcd.is_pressed(button[0]):
+                    if button[1] == "Back":  # pressed left
+                        time.sleep(0.5)  # Needed since buttons stay "pressed"
+                        self.observation_mode()
+
+
 
 if __name__ == '__main__':
-    disp = Display()
+    q = Queue()
+    disp = Display(q)
     disp.main_menu()
