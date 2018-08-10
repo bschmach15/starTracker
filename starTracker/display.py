@@ -14,6 +14,7 @@ class Display(Thread):
         self.lcd.set_color(1, 0, 0)
         self.lcd.message('Initializing...\n')
         self.lcd.create_char(1, [12,18,18,12,0,0,0,0])  # degree symbol
+        self.lcd.create_char(2, [0,1,3,2,14,18,18,12])  # delta symbol
         self.modes = {"Main Menu": self.main_menu, "Observation": self.observation_mode, "Photography": self.photo_mode}
         self.options = None
         self.buttons = [[LCD.SELECT, 0], [LCD.LEFT, "Back"], [LCD.RIGHT,3],
@@ -80,7 +81,7 @@ class Display(Thread):
 
     def tracking_mode(self, planet_key):
         tracked_planet = planets[planet_key]
-        message = "Tracking {0}\n RA: {1:0.2f}\x01 Dec: {2:0.2f}\x01".format(planet_key, tracked_planet.right_ascenscion,
+        message = "Tracking {0}\nRA:{1:0.2f}\x01 \x02:{2:0.2f}\x01".format(planet_key, tracked_planet.right_ascenscion,
                                                                    tracked_planet.declination)
         self.display_message(message)
         while True:
