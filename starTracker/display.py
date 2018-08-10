@@ -80,7 +80,7 @@ class Display(Thread):
 
     def tracking_mode(self, planet_key):
         tracked_planet = planets[planet_key]
-        message = "Tracking {0}\n RA: {1}\x01 Dec: {2}\0x1".format(planet_key, tracked_planet.right_ascenscion,
+        message = "Tracking {0}\n RA: {1:0.2f}\x01 Dec: {2:0.2f}\x01".format(planet_key, tracked_planet.right_ascenscion,
                                                                    tracked_planet.declination)
         self.display_message(message)
         while True:
