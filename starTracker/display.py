@@ -79,10 +79,19 @@ class Display(Thread):
 
     def display_message(self, message:str):
         self.lcd.message(message)
+        if len(message) > 15:
+            for i in range(15-len(message)):
+                time.sleep(0.5)
+                self.lcd.move_left()
+            time.sleep(2)
+            for i in range(len(message) - 15):
+                time.sleep(0.5)
+                self.lcd.move_right()
+
 
     def tracking_mode(self, planet_key):
         tracked_planet = planets[planet_key]
-        message = "Tracking {0}\nRA:{1:0.2f}\x01 \x02:{2:0.2f}\x01".format(planet_key, tracked_planet.right_ascenscion,
+        message = "Tracking {0}\nRA:{1:0.2f}\x01 Dec:{2:0.2f}\x01".format(planet_key, tracked_planet.right_ascenscion,
                                                                    tracked_planet.declination)
         self.display_message(message)
         while True:
