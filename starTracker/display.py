@@ -80,11 +80,11 @@ class Display(Thread):
     def display_message(self, message:str):
         self.lcd.message(message)
         if len(message) > 15:
-            for i in range(15-len(message)):
+            for i in range(len(message) - 15):
                 time.sleep(0.5)
                 self.lcd.move_left()
             time.sleep(2)
-            for i in range(len(message) - 15):
+            for i in range(15 - len(message)):
                 time.sleep(0.5)
                 self.lcd.move_right()
 
