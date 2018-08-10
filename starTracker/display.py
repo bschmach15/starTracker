@@ -32,6 +32,7 @@ class Display(Thread):
                 if self.lcd.is_pressed(button[0]):
                     self.lcd.clear()
                     if button[1] == 0: # You've Pressed Select
+                        time.sleep(0.5)
                         self.modes[self.options[index]]()
                     elif index == len(self.options) - 1 and button[1] == 1:
                         index = 0
